@@ -44,7 +44,7 @@ export class BackendStack extends cdk.Stack {
     });
 
     const backendLayer = new lambda.LayerVersion(this, 'BackendLayer', {
-      code: lambda.Code.fromAsset(path.join(__dirname, '..', '..', 'dist', 'layer', 'layer.zip')),
+      code: lambda.Code.fromAsset(path.join(__dirname, '..', '..', 'backend', 'dist', 'layer', 'layer.zip')),
       compatibleRuntimes: [lambda.Runtime.PYTHON_3_11],
       description: 'Lambda layer with dependencies for BackendLambda',
     });
@@ -53,7 +53,7 @@ export class BackendStack extends cdk.Stack {
       runtime: lambda.Runtime.PYTHON_3_11,
       architecture: lambda.Architecture.X86_64,
       handler: 'main.lambda_handler',
-      code: lambda.Code.fromAsset(path.join(__dirname, '..', '..', 'dist', 'lambda', 'lambda.zip')),
+      code: lambda.Code.fromAsset(path.join(__dirname, '..', '..', 'backend', 'dist', 'lambda', 'lambda.zip')),
       environment: ENV_VARS,
       memorySize: 512,
       timeout: cdk.Duration.seconds(60),

@@ -1,0 +1,62 @@
+name: CDK Deployment to Production
+
+on:
+  release:
+    types: [created]
+
+jobs:
+    build-and-deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out the repository
+              uses: actions/checkout@v4
+
+            - name: Set up Python
+              uses: actions/setup-python@v5
+              with:
+                  python-version: 3.11
+
+            - name: Set up Environment Variables
+              run: |
+                  echo "AWS_REGION=eu-west-2" >> $GITHUB_ENV
+                  echo "AWS_ACCOUNT_ID=${{ vars.PROD_AWS_ACCOUNT_ID }}" >> $GITHUB_ENV
+                  echo "AWS_ACCESS_KEY_ID=${{ secrets.PROD_AWS_ACCESS_KEY_ID }}" >> $GITHUB_ENV
+                  echo "AWS_SECRET_ACCESS_KEY=${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}" >> $GITHUB_ENV
+                  echo "ENVIRONMENT=prod" >> $GITHUB_ENV
+                  echo "RELEASE_VERSION=${{ github.sha }}" >> $GITHUB_ENV
+
+            - name: Build Lambda Layer
+              working-directory: backend
+              run: make layer
+
+            - name: Build Lambda Code
+              working-directory: backend
+              run: make lambda
+
+            - name: Install frontend dependencies
+              run: npm ci
+
+            - name: Build frontend
+              run: npm run build
+
+            - name: Set up API endpoints
+              working-directory: frontend
+              run: cp ./src/configs/${{ env.STAGE }}/app-config.ts ./src/configs/app-config.ts
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "22"
+
+            - name: Install AWS CDK
+              working-directory: infra
+              run: npm install -g aws-cdk
+
+            - name: Install CDK Dependencies
+              working-directory: infra
+              run: npm install
+
+            - name: Deploy CDK Stack
+              working-directory: infra
+              run: |
+                  cdk deploy BackendStack-${{ env.ENVIRONMENT }} FrontendStack-${{ env.ENVIRONMENT }} --require-approval never

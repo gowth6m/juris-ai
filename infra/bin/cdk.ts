@@ -4,6 +4,7 @@ import { BackendStack } from '../lib/backend-stack';
 import * as cdk from 'aws-cdk-lib';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
+import { FrontendStack } from '../lib/frontend-stack';
 
 // --------------------------------------------------------------
 
@@ -18,6 +19,7 @@ const defaultEnvironment = 'dev';
 const accountID = process.env.AWS_ACCOUNT_ID || defaultAccountID;
 const region = process.env.AWS_REGION || defaultRegion;
 const stage = process.env.ENVIRONMENT || defaultEnvironment;
+const regionForFrontend = 'us-east-1';
 
 const stackName = `BackendStack-${stage}`;
 
@@ -32,4 +34,13 @@ new BackendStack(app, stackName, {
   stage: stage,
   stackName: stackName,
   description: `Backend stack for ${stage} stage`,
+});
+new FrontendStack(app, 'FrontendStack', {
+  env: {
+    account: accountID,
+    region: regionForFrontend,
+  },
+  stage: stage,
+  stackName: 'FrontendStack',
+  description: `Frontend stack for ${stage} stage`,
 });
