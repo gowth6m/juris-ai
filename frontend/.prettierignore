@@ -1,0 +1,10 @@
+build/*
+dist/*
+public/*
+**/out/*
+**/.next/*
+**/node_modules/*
+cdk/*
+
+package-lock.json
+yarn.lock

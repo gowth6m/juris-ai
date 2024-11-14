@@ -1,0 +1,12 @@
+FROM amazonlinux:2
+
+RUN yum install -y python3-pip zip
+
+WORKDIR /app
+
+COPY requirements.txt .
+
+RUN pip3 install --upgrade pip && \
+    pip3 install -r requirements.txt -t /output/python
+
+RUN cd /output && zip -r layer.zip python

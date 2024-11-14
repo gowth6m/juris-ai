@@ -1,0 +1,34 @@
+[tool.poetry]
+name = "juris-ai"
+version = "0.1.0"
+description = "Backend service for Juris AI"
+authors = ["gowth6m"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.115.4"
+boto3 = "^1.35.53"
+mangum = "^0.19.0"
+pydantic = {extras = ["email", "timezone"], version = "^2.9.2"}
+isort = "^5.13.2"
+pylint = "^3.3.1"
+black = "^24.10.0"
+uvicorn = "^0.32.0"
+ujson = "^5.10.0"
+redis = "^5.2.0"
+pydantic-settings = "^2.6.0"
+pyjwt = "^2.9.0"
+motor = "^3.6.0"
+argon2-cffi = "^23.1.0"
+openai = "^1.53.1"
+beautifulsoup4 = "^4.12.3"
+pdfplumber = "^0.11.4"
+python-multipart = "^0.0.17"
+convertapi = "^2.0.0"
+pypdf2 = "^3.0.1"
+aiohttp = "^3.10.10"
+backoff = "^2.2.1"
+tiktoken = "^0.8.0"
+
+[build-system]
+requires = ["poetry-core"]

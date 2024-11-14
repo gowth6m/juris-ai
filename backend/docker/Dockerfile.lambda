@@ -1,0 +1,12 @@
+FROM public.ecr.aws/lambda/python:3.11
+
+COPY requirements.txt ${LAMBDA_TASK_ROOT}
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . ${LAMBDA_TASK_ROOT}
+
+# Make sure the lambda handler is importable from the root of the lambda package
+RUN touch ${LAMBDA_TASK_ROOT}/__init__.py
+
+CMD ["main.lambda_handler"]
