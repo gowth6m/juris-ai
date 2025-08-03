@@ -4,7 +4,7 @@
 
 Juris AI is a platform designed to streamline the analysis and processing of legal documents using AI. The platform offers a React-based frontend for an intuitive user experience and a FastAPI backend for efficient processing and management of legal document workflows.
 
-Live demo [here](https://app.jurisai.uk)
+Live demo [here](https://jurisai.gowthan.io)
 
 ## Frontend
 
@@ -20,7 +20,7 @@ The infrastructure is managed using AWS CDK. The backend is deployed as zipped L
 
 ## Swagger documentation
 
-View the API documentation [here](https://api.prod.jurisai.uk/docs)
+View the API documentation [here](https://api.jurisai.gowthan.io/docs)
 
 ## Preview
 
